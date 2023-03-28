@@ -1,13 +1,24 @@
+import { useEffect } from 'react';
+
 import { OrderModalProps } from '../../types/Order.types';
 import { Actions, ModalContent, OrderDetais, Overlay } from './styles';
 import closeIcon from '../../assets/images/close-icon.svg';
 import { formatCurrency } from '../../utils/formartCurrency';
 
 export function OrderModal({ isVisible = false, order, onClose }: OrderModalProps){
+  useEffect(() => {
+    function handleKeypress(e){
+      if(e.key === 'Escape'){
+        onClose();
+      }
+    }
+
+    document.addEventListener('keypress', handleKeypress);
+  });
+
   if(!isVisible || !order){
     return null;
   }
-
   // let totalPrice = 0;
   // order.products.forEach(({ product, quantity }) => {
   //   totalPrice += product.price*quantity;
