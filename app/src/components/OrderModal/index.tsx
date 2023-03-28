@@ -7,14 +7,18 @@ import { formatCurrency } from '../../utils/formartCurrency';
 
 export function OrderModal({ isVisible = false, order, onClose }: OrderModalProps){
   useEffect(() => {
-    function handleKeypress(e){
+    function handleKeypress(e: KeyboardEvent){
       if(e.key === 'Escape'){
         onClose();
       }
     }
 
     document.addEventListener('keypress', handleKeypress);
-  });
+
+    return () => {
+      document.removeEventListener('keypress', handleKeypress);
+    };
+  }, [onClose]);
 
   if(!isVisible || !order){
     return null;
